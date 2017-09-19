@@ -250,6 +250,11 @@ uint32_t HwmonIO::read(
     auto fullPath = sysfs::make_sysfs_path(
             p, type, id, sensor);
 
+    if (!fs::exists(fullPath))
+    {
+        fullPath = make_sysfs_path(p + "/device", type, id, sensor);
+    }
+
     ifs.exceptions(
             std::ifstream::failbit |
                 std::ifstream::badbit |
